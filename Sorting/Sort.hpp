@@ -19,6 +19,11 @@ using namespace chrono;
 		- Bogosort
 		- Mergesort
 		- Counting sort  (supports numbers only)
+
+		TODO:
+		- Shellsort
+		- Heapsort
+		- Quicksort
 */
 
 template <typename T>
