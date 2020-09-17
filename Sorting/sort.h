@@ -60,7 +60,6 @@ public:
 
 };
 
-
 template <typename T, class Compare = less<T> >
 class SelectionSort : public Sort<T> {
 
@@ -80,7 +79,6 @@ public:
 	}
 
 };
-
 
 template <typename T, class Compare = less<T> >
 class OptimizedSelectionSort : public SelectionSort<T, Compare> {
@@ -102,7 +100,6 @@ public:
 
 };
 
-
 template <typename T, class Compare = less<T> >
 class BubbleSort : public Sort<T> {
 
@@ -122,7 +119,6 @@ public:
 	}
 
 };
-
 
 template <typename T, class Compare = less<T> >
 class OptimizedBubbleSort : public BubbleSort<T, Compare> {
@@ -144,7 +140,6 @@ public:
 
 };
 
-
 template <typename T, class Compare = less<T> >
 class InsertionSort : public Sort<T> {
 
@@ -164,7 +159,6 @@ public:
 	}
 
 };
-
 
 template <typename T, class Compare = less<T> >
 class STLSort : public Sort<T> {
@@ -186,7 +180,6 @@ public:
 
 };
 
-
 template <typename T, class Compare = less<T> >
 class BogoSort : public Sort<T> {
 
@@ -206,7 +199,6 @@ public:
 	}
 
 };
-
 
 template <typename T, class Compare = less<T> >
 class MergeSort : public Sort<T> {
@@ -230,7 +222,6 @@ public:
 	}
 
 };
-
 
 /*
 	Counting sort can only sort numbers.
@@ -259,7 +250,6 @@ public:
 
 };
 
-
 template <typename T, class Compare>
 const string SelectionSort<T, Compare>::algorithmName = "Selection sort";
 
@@ -287,7 +277,6 @@ const string MergeSort<T, Compare>::algorithmName = "Mergesort";
 template <class Compare>
 const string CountingSort<Compare>::algorithmName = "Counting sort";
 
-
 template <typename T, class Compare>
 void SelectionSort<T, Compare>::sortVector(vector<T> &arr) const {
 
@@ -301,7 +290,6 @@ void SelectionSort<T, Compare>::sortVector(vector<T> &arr) const {
 		}
 	}
 }
-
 
 template <typename T, class Compare>
 void OptimizedSelectionSort<T, Compare>::sortVector(vector<T> &arr) const {
@@ -326,7 +314,6 @@ void OptimizedSelectionSort<T, Compare>::sortVector(vector<T> &arr) const {
 	}
 }
 
-
 template <typename T, class Compare>
 void BubbleSort<T, Compare>::sortVector(vector<T> &arr) const {
 	Compare comp;
@@ -338,7 +325,6 @@ void BubbleSort<T, Compare>::sortVector(vector<T> &arr) const {
 		}
 	}
 }
-
 
 template <typename T, class Compare>
 void OptimizedBubbleSort<T, Compare>::sortVector(vector<T> &arr) const {
@@ -359,7 +345,6 @@ void OptimizedBubbleSort<T, Compare>::sortVector(vector<T> &arr) const {
 	} while (lastChangeOn != 0);
 }
 
-
 template <typename T, class Compare>
 void InsertionSort<T, Compare>::sortVector(vector<T> &arr) const {
 	Compare comp;
@@ -377,7 +362,6 @@ void InsertionSort<T, Compare>::sortVector(vector<T> &arr) const {
 	}
 }
 
-
 template <typename T, class Compare>
 void STLSort<T, Compare>::sortVector(vector<T> &arr) const {
 	sort(arr.begin(), arr.end(), Compare());
@@ -391,7 +375,6 @@ void BogoSort<T, Compare>::sortVector(vector<T> &arr) const {
 		random_shuffle(arr.begin(), arr.end());
 	}
 }
-
 
 template <typename T, class Compare>
 void MergeSort<T, Compare>::sortVector(vector<T> &arr) const {
@@ -423,7 +406,6 @@ void MergeSort<T, Compare>::merge(vector<T> &arr, vector<T> &temp, size_t lo, si
 	while (arrInd < rightHalfInd && rightHalfInd <= hi) arr[arrInd++] = (!comp(arr[rightHalfInd], temp[leftHalfInd]) ? temp[leftHalfInd++] : arr[rightHalfInd++]);  // stable
 	while (arrInd < rightHalfInd) arr[arrInd++] = temp[leftHalfInd++];
 }
-
 
 template <class Compare>
 void CountingSort<Compare>::sortVector(vector<int> &arr) const {
