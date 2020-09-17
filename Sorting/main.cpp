@@ -24,13 +24,13 @@ int main() {
 
 	cout << "Shuffling done.\n";
 
-	Sort<int> *sorter = new BubbleSort<int>();
+	Sort<int> *sorter = new InsertionSort<int>();
 	sorter->sort(v);
 
 	cout << "Vector sorted.\n\n";
 	
-	cout << "Sorted:\n";
-	// print<int>(v);
+	//cout << "Sorted:\n";
+	//print<int>(v);
 
 	cout << *sorter;
 
