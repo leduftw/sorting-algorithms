@@ -2,11 +2,11 @@
 #include <numeric>
 #include <algorithm>
 
-#include "Sort.hpp"
+#include "sort.h"
 
 using namespace std;
 
-const int n = 5;
+const int n = 10000;
 
 template <typename T>
 void print(vector<T> v) {
@@ -24,13 +24,13 @@ int main() {
 
 	cout << "Shuffling done.\n";
 
-	Sort<int> *sorter = new BogoSort<int>();
+	Sort<int> *sorter = new BubbleSort<int>();
 	sorter->sort(v);
 
 	cout << "Vector sorted.\n\n";
 	
 	cout << "Sorted:\n";
-	print<int>(v);
+	// print<int>(v);
 
 	cout << *sorter;
 
