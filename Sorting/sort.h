@@ -10,7 +10,7 @@
 using namespace std;
 using namespace chrono;
 
-/**
+/*
 	Sorting algorithms that you can find here:
 		- Selection sort (+ optimized)
 		- Bubble sort    (+ optimized)
@@ -67,7 +67,7 @@ class SelectionSort : public Sort<T> {
 
 protected:
 
-	/**
+	/*
 		Takes around 55 seconds for vector with 10k elements.
 	*/
 	virtual void sortVector(vector<T> &arr) const override;
@@ -87,7 +87,7 @@ class OptimizedSelectionSort : public SelectionSort<T, Compare> {
 
 protected:
 
-	/**
+	/*
 		Takes around 15 seconds for vector with 10k elements.
 	*/
 	virtual void sortVector(vector<T> &arr) const override;
@@ -107,7 +107,7 @@ class BubbleSort : public Sort<T> {
 
 protected:
 
-	/**
+	/*
 		Takes around 85 seconds for vector with 10k elements.
 	*/
 	virtual void sortVector(vector<T> &arr) const override;
@@ -127,7 +127,7 @@ class OptimizedBubbleSort : public BubbleSort<T, Compare> {
 
 protected:
 
-	/**
+	/*
 		Takes around 35 seconds for vector with 10k elements.
 	*/
 	virtual void sortVector(vector<T> &arr) const override;
@@ -147,7 +147,7 @@ class InsertionSort : public Sort<T> {
 
 protected:
 
-	/**
+	/*
 		Takes around 25 seconds for vector with 10k elements.
 	*/
 	virtual void sortVector(vector<T> &arr) const override;
@@ -167,7 +167,7 @@ class STLSort : public Sort<T> {
 
 protected:
 
-	/**
+	/*
 		Takes 2 seconds for vector with 1m elements.
 	*/
 	virtual void sortVector(vector<T> &arr) const override;
@@ -187,7 +187,7 @@ class BogoSort : public Sort<T> {
 
 protected:
 
-	/**
+	/*
 		One time BogoSort took 9 seconds for vector with 10 elements.
 	*/
 	virtual void sortVector(vector<T> &arr) const override;
@@ -210,7 +210,7 @@ class MergeSort : public Sort<T> {
 
 protected:
 
-	/**
+	/*
 		Takes 22 seconds for vector with 1m elements.
 	*/
 	virtual void sortVector(vector<T> &arr) const override;
@@ -235,7 +235,7 @@ class CountingSort : public Sort<int> {
 
 protected:
 
-	/**
+	/*
 		Takes 1 second for vector with 1m elements.
 	*/
 	virtual void sortVector(vector<int> &arr) const override;
