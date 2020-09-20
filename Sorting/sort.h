@@ -367,7 +367,6 @@ void STLSort<T, Compare>::sortVector(vector<T> &arr) const {
 	sort(arr.begin(), arr.end(), Compare());
 }
 
-
 template <typename T, class Compare>
 void BogoSort<T, Compare>::sortVector(vector<T> &arr) const {
 	Compare comp;
