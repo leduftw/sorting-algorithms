@@ -65,6 +65,10 @@ class SelectionSort : public Sort<T> {
 
 	static const string algorithmName;
 
+	vector<int> gaps;
+
+	GapsStrategy *gapsStrategy;
+
 protected:
 
 	/*
@@ -250,6 +254,23 @@ public:
 
 };
 
+template <typename T, class Compare = less<T> >
+class ShellSort : public Sort<T> {
+
+	static const string algorithmName;
+
+protected:
+
+	virtual void sortVector(vector<T> &arr) const override;
+
+public:
+
+	virtual string getAlgorithmName() const override {
+		return algorithmName;
+	}
+
+};
+
 template <typename T, class Compare>
 const string SelectionSort<T, Compare>::algorithmName = "Selection sort";
 
@@ -276,6 +297,9 @@ const string MergeSort<T, Compare>::algorithmName = "Mergesort";
 
 template <class Compare>
 const string CountingSort<Compare>::algorithmName = "Counting sort";
+
+template <typename T, class Compare>
+const string ShellSort<T, Compare>::algorithmName = "Shellsort";
 
 template <typename T, class Compare>
 void SelectionSort<T, Compare>::sortVector(vector<T> &arr) const {
@@ -430,6 +454,13 @@ void CountingSort<Compare>::sortVector(vector<int> &arr) const {
 	}
 
 	copy(sortedArr.begin(), sortedArr.end(), arr.begin());
+}
+
+template <typename T, class Compare>
+void ShellSort<T, Compare>::sortVector(vector<T> &arr) const {
+	
+
+
 }
 
 #endif
