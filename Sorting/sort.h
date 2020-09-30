@@ -6,6 +6,7 @@
 #include <chrono>
 #include <string>
 #include <functional>
+#include <memory>
 
 #include "gap_strategy.h"
 #include "knuth_gap_strategy.h"
@@ -24,8 +25,8 @@ using namespace chrono;
 		- Counting sort  (supports numbers only)
 
 		TODO:
-		- Heapsort
 		- Quicksort
+		- Heapsort
 */
 
 template <typename T>
@@ -41,6 +42,8 @@ protected:
 public:
 
 	Sort() : sizeOfLastSort(0) { }
+
+	virtual ~Sort() { }
 
 	void sort(vector<T> &arr) {
 		start = high_resolution_clock::now();
@@ -80,6 +83,8 @@ public:
 		return algorithmName;
 	}
 
+	virtual ~SelectionSort() { }
+
 };
 
 template <typename T, class Compare = less<T> >
@@ -99,6 +104,8 @@ public:
 	virtual string getAlgorithmName() const override {
 		return algorithmName;
 	}
+
+	virtual ~OptimizedSelectionSort() { }
 
 };
 
@@ -120,6 +127,8 @@ public:
 		return algorithmName;
 	}
 
+	virtual ~BubbleSort() { }
+
 };
 
 template <typename T, class Compare = less<T> >
@@ -139,6 +148,8 @@ public:
 	virtual string getAlgorithmName() const override {
 		return algorithmName;
 	}
+
+	virtual ~OptimizedBubbleSort() { }
 
 };
 
@@ -160,6 +171,8 @@ public:
 		return algorithmName;
 	}
 
+	virtual ~InsertionSort() { }
+
 };
 
 template <typename T, class Compare = less<T> >
@@ -180,6 +193,8 @@ public:
 		return algorithmName;
 	}
 
+	virtual ~STLSort() { }
+
 };
 
 template <typename T, class Compare = less<T> >
@@ -199,6 +214,8 @@ public:
 	virtual string getAlgorithmName() const override {
 		return algorithmName;
 	}
+
+	virtual ~BogoSort() { }
 
 };
 
@@ -223,6 +240,8 @@ public:
 		return algorithmName;
 	}
 
+	virtual ~MergeSort() { }
+
 };
 
 /*
@@ -246,6 +265,8 @@ public:
 
 	CountingSort(int limit) : k(limit) { }
 
+	virtual ~CountingSort() { }
+
 	virtual string getAlgorithmName() const override {
 		return algorithmName;
 	}
@@ -257,7 +278,7 @@ class ShellSort : public Sort<T> {
 
 	static const string algorithmName;
 
-	GapStrategy *gapStrategy = new KnuthGapStrategy();
+	unique_ptr<GapStrategy> gapStrategy = make_unique<KnuthGapStrategy>;
 
 protected:
 
