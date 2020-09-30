@@ -19,7 +19,7 @@ public:
 		k = floor(log3(2 * ceil(n / 3) + 1)), which is also
 		the size of returned result array.
 	*/
-	virtual vector<int> getGaps(size_t n) const override;
+	virtual vector<size_t> getGaps(size_t n) const override;
 
 };
 
