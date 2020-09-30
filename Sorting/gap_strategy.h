@@ -15,6 +15,8 @@ public:
 	*/
 	virtual vector<int> getGaps(int n) const = 0;
 
+	virtual ~GapStrategy() { }
+
 };
 
 #endif

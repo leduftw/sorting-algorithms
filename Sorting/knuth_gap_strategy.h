@@ -1,7 +1,9 @@
 #ifndef KNUTH_GAP_STRATEGY
 #define KNUTH_GAP_STRATEGY
 
+#include <iostream>
 #include <vector>
+
 #include "gap_strategy.h"
 
 using namespace std;
@@ -20,6 +22,10 @@ public:
 		the size of returned result array.
 	*/
 	virtual vector<int> getGaps(int n) const override;
+
+	virtual ~KnuthGapStrategy() { 
+		//cout << "KGS destructor called!\n";
+	}
 
 };
 

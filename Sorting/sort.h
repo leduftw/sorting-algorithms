@@ -1,6 +1,7 @@
 #ifndef SORT_H
 #define SORT_H
 
+#include <iostream>
 #include <vector>
 #include <algorithm>
 #include <chrono>
@@ -25,9 +26,10 @@ using namespace chrono;
 		- Bogosort
 		- Mergesort
 		- Counting sort  (supports numbers only)
+		- Shellsort
+		- Quicksort
 
 		TODO:
-		- Quicksort
 		- Heapsort
 */
 
@@ -45,7 +47,9 @@ public:
 
 	Sort() : sizeOfLastSort(0) { }
 
-	virtual ~Sort() { }
+	virtual ~Sort() { 
+		//cout << "Sort destructor called\n"; 
+	}
 
 	void sort(vector<T> &arr) {
 		start = high_resolution_clock::now();
@@ -280,7 +284,7 @@ class ShellSort : public Sort<T> {
 
 	static const string algorithmName;
 
-	unique_ptr<GapStrategy> gapStrategy = make_unique<KnuthGapStrategy>();
+	shared_ptr<GapStrategy> gapStrategy = make_shared<KnuthGapStrategy>();
 
 protected:
 
@@ -295,7 +299,7 @@ public:
 		return algorithmName;
 	}
 
-	void setGapStrategy(unique_ptr<GapStrategy> gapStrategy) {
+	void setGapStrategy(shared_ptr<GapStrategy> gapStrategy) {
 		this->gapStrategy = gapStrategy;
 	}
 
@@ -308,7 +312,7 @@ class QuickSort : public Sort<T> {
 
 	static const string algorithmName;
 
-	unique_ptr<PivotStrategy<T>> pivotStrategy = make_unique<MiddlePivotStrategy<T>>();
+	shared_ptr<PivotStrategy<T>> pivotStrategy = make_shared<MiddlePivotStrategy<T>>();
 
 	void quickSort(vector<T> &arr, int lo, int hi) const;
 	int partition(vector<T> &arr, int lo, int hi, T pivot) const;
@@ -326,7 +330,7 @@ public:
 		return algorithmName;
 	}
 
-	void setPivotStrategy(unique_ptr<PivotStrategy<T>> pivotStrategy) {
+	void setPivotStrategy(shared_ptr<PivotStrategy<T>> pivotStrategy) {
 		this->pivotStrategy = pivotStrategy;
 	}
 
@@ -554,21 +558,21 @@ template <typename T, class Compare>
 void QuickSort<T, Compare>::quickSort(vector<T> &arr, int lo, int hi) const {
 	if (lo >= hi) return;
 
-	T pi = pivotStrategy->getPivot(arr, lo, hi);
-	int idx = partition(arr, lo, hi, pi);
+	T piv = pivotStrategy->getPivot(arr, lo, hi);
+	int idx = partition(arr, lo, hi, piv);
 
 	quickSort(arr, lo, idx - 1);
 	quickSort(arr, idx, hi);
 }
 
 template <typename T, class Compare>
-int QuickSort<T, Compare>::partition(vector<T> &arr, int lo, int hi, T pi) const {
+int QuickSort<T, Compare>::partition(vector<T> &arr, int lo, int hi, T piv) const {
 	Compare comp;
 	while (lo <= hi) {
-		while (comp(arr[lo], pi)) {
+		while (comp(arr[lo], piv)) {
 			lo++;
 		}
-		while (comp(pi, arr[hi])) {
+		while (comp(piv, arr[hi])) {
 			hi--;
 		}
 		if (lo <= hi) {

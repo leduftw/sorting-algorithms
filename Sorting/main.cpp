@@ -7,7 +7,7 @@
 
 using namespace std;
 
-const int n = 1'000'000;
+const int n = 1'000;
 
 template <typename T>
 void print(vector<T> v) {
@@ -25,12 +25,26 @@ int main() {
 
 	cout << "Shuffling done.\n";
 
-	shared_ptr<Sort<int>> sorter = make_shared<QuickSort<int>>();
+	shared_ptr<ShellSort<int, greater<int>>> sorter = make_shared<ShellSort<int, greater<int>>>();
 	sorter->sort(v);
 
 	cout << "Vector sorted.\n\n";
 	
-	assert(is_sorted(v.begin(), v.end()));
+	assert(is_sorted(v.begin(), v.end(), greater<int>()));
+
+	cout << "Changing strategy...\n\n";
+
+	sorter->setGapStrategy(make_shared<KnuthGapStrategy>());
+
+	random_shuffle(v.begin(), v.end());
+
+	cout << "Shuffling done.\n";
+
+	sorter->sort(v);
+
+	cout << "Vector sorted.\n\n";
+
+	assert(is_sorted(v.begin(), v.end(), greater<int>()));
 
 	//cout << "Sorted:\n";
 	//print<int>(v);
