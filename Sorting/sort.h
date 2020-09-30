@@ -298,6 +298,27 @@ public:
 		this->gapStrategy = gapStrategy;
 	}
 
+	virtual ~ShellSort() { }
+
+};
+
+template <typename T, class Compare = less<T> >
+class QuickSort : public Sort<T> {
+
+	static const string algorithmName;
+
+protected:
+
+	virtual void sortVector(vector<T> &arr) const override;
+
+public:
+
+	virtual string getAlgorithmName() const override {
+		return algorithmName;
+	}
+
+	virtual ~QuickSort() { }
+
 };
 
 template <typename T, class Compare>
@@ -329,6 +350,9 @@ const string CountingSort<Compare>::algorithmName = "Counting sort";
 
 template <typename T, class Compare>
 const string ShellSort<T, Compare>::algorithmName = "Shellsort";
+
+template <typename T, class Compare>
+const string QuickSort<T, Compare>::algorithmName = "Quicksort";
 
 template <typename T, class Compare>
 void SelectionSort<T, Compare>::sortVector(vector<T> &arr) const {
@@ -506,6 +530,11 @@ void ShellSort<T, Compare>::sortVector(vector<T> &arr) const {
 			arr[j + gap] = temp;
 		}
 	}
+}
+
+template <typename T, class Compare>
+void QuickSort<T, Compare>::sortVector(vector<T> &arr) const {
+	
 }
 
 #endif
