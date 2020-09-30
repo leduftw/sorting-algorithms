@@ -280,7 +280,7 @@ class ShellSort : public Sort<T> {
 
 	static const string algorithmName;
 
-	unique_ptr<GapStrategy> gapStrategy = make_unique<KnuthGapStrategy>;
+	unique_ptr<GapStrategy> gapStrategy = make_unique<KnuthGapStrategy>();
 
 protected:
 
@@ -295,8 +295,7 @@ public:
 		return algorithmName;
 	}
 
-	void setGapStrategy(GapStrategy *gapStrategy) {
-		delete this->gapStrategy;
+	void setGapStrategy(unique_ptr<GapStrategy> gapStrategy) {
 		this->gapStrategy = gapStrategy;
 	}
 
@@ -325,6 +324,10 @@ public:
 
 	virtual string getAlgorithmName() const override {
 		return algorithmName;
+	}
+
+	void setPivotStrategy(unique_ptr<PivotStrategy<T>> pivotStrategy) {
+		this->pivotStrategy = pivotStrategy;
 	}
 
 	virtual ~QuickSort() { }
