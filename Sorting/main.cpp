@@ -1,12 +1,13 @@
 #include <iostream>
 #include <numeric>
 #include <algorithm>
+#include <assert.h>
 
 #include "sort.h"
 
 using namespace std;
 
-const int n = 50;
+const int n = 1'000'000;
 
 template <typename T>
 void print(vector<T> v) {
@@ -24,13 +25,15 @@ int main() {
 
 	cout << "Shuffling done.\n";
 
-	Sort<int> *sorter = new ShellSort<int>();
+	Sort<int> *sorter = new ShellSort<int, greater<int> >();
 	sorter->sort(v);
 
 	cout << "Vector sorted.\n\n";
 	
-	cout << "Sorted:\n";
-	print<int>(v);
+	assert(is_sorted(v.begin(), v.end(), greater<int>()));
+
+	//cout << "Sorted:\n";
+	//print<int>(v);
 
 	cout << *sorter;
 
