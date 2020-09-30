@@ -24,7 +24,6 @@ using namespace chrono;
 		- Counting sort  (supports numbers only)
 
 		TODO:
-		- Shellsort
 		- Heapsort
 		- Quicksort
 */
