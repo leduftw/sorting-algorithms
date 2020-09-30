@@ -7,7 +7,7 @@
 
 using namespace std;
 
-const int n = 1'000;
+const int n = 1'000'000;
 
 template <typename T>
 void print(vector<T> v) {
@@ -25,12 +25,12 @@ int main() {
 
 	cout << "Shuffling done.\n";
 
-	shared_ptr<Sort<int>> sorter = make_shared<InsertionSort<int>>();
+	shared_ptr<Sort<int>> sorter = make_shared<QuickSort<int>>();
 	sorter->sort(v);
 
 	cout << "Vector sorted.\n\n";
 	
-	assert(is_sorted(v.begin(), v.end(), greater<int>()));
+	assert(is_sorted(v.begin(), v.end()));
 
 	//cout << "Sorted:\n";
 	//print<int>(v);
