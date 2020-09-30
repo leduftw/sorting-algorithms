@@ -10,6 +10,8 @@
 
 #include "gap_strategy.h"
 #include "knuth_gap_strategy.h"
+#include "pivot_strategy.h"
+#include "middle_pivot_strategy.h"
 
 using namespace std;
 using namespace chrono;
@@ -307,8 +309,16 @@ class QuickSort : public Sort<T> {
 
 	static const string algorithmName;
 
+	unique_ptr<PivotStrategy<T>> pivotStrategy = make_unique<MiddlePivotStrategy<T>>();
+
+	void quickSort(vector<T> &arr, int lo, int hi) const;
+	int partition(vector<T> &arr, int lo, int hi, T pivot) const;
+
 protected:
 
+	/*
+		Takes 20 seconds for vector with 1m elements.
+	*/
 	virtual void sortVector(vector<T> &arr) const override;
 
 public:
@@ -534,7 +544,37 @@ void ShellSort<T, Compare>::sortVector(vector<T> &arr) const {
 
 template <typename T, class Compare>
 void QuickSort<T, Compare>::sortVector(vector<T> &arr) const {
-	
+	quickSort(arr, 0, arr.size() - 1);
+}
+
+template <typename T, class Compare>
+void QuickSort<T, Compare>::quickSort(vector<T> &arr, int lo, int hi) const {
+	if (lo >= hi) return;
+
+	T pi = pivotStrategy->getPivot(arr, lo, hi);
+	int idx = partition(arr, lo, hi, pi);
+
+	quickSort(arr, lo, idx - 1);
+	quickSort(arr, idx, hi);
+}
+
+template <typename T, class Compare>
+int QuickSort<T, Compare>::partition(vector<T> &arr, int lo, int hi, T pi) const {
+	Compare comp;
+	while (lo <= hi) {
+		while (comp(arr[lo], pi)) {
+			lo++;
+		}
+		while (comp(pi, arr[hi])) {
+			hi--;
+		}
+		if (lo <= hi) {
+			swap(arr[lo], arr[hi]);
+			lo++;
+			hi--;
+		}
+	}
+	return lo;
 }
 
 #endif
