@@ -261,6 +261,9 @@ class ShellSort : public Sort<T> {
 
 protected:
 
+	/*
+		Takes 50 seconds for vector with 1m elements.
+	*/
 	virtual void sortVector(vector<T> &arr) const override;
 
 public:
