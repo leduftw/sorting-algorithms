@@ -6,7 +6,7 @@
 
 using namespace std;
 
-const int n = 10000;
+const int n = 50;
 
 template <typename T>
 void print(vector<T> v) {
@@ -24,13 +24,13 @@ int main() {
 
 	cout << "Shuffling done.\n";
 
-	Sort<int> *sorter = new InsertionSort<int>();
+	Sort<int> *sorter = new ShellSort<int>();
 	sorter->sort(v);
 
 	cout << "Vector sorted.\n\n";
 	
-	//cout << "Sorted:\n";
-	//print<int>(v);
+	cout << "Sorted:\n";
+	print<int>(v);
 
 	cout << *sorter;
 

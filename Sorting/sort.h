@@ -7,6 +7,9 @@
 #include <string>
 #include <functional>
 
+#include "gap_strategy.h"
+#include "knuth_gap_strategy.h"
+
 using namespace std;
 using namespace chrono;
 
@@ -30,7 +33,7 @@ template <typename T>
 class Sort {
 
 	time_point<high_resolution_clock> start, end;
-	size_t sizeOfLastSort;
+	int sizeOfLastSort;
 
 protected:
 
@@ -64,10 +67,6 @@ template <typename T, class Compare = less<T> >
 class SelectionSort : public Sort<T> {
 
 	static const string algorithmName;
-
-	vector<int> gaps;
-
-	GapsStrategy *gapsStrategy;
 
 protected:
 
@@ -209,8 +208,8 @@ class MergeSort : public Sort<T> {
 
 	static const string algorithmName;
 
-	void mergeSort(vector<T> &arr, vector<T> &temp, size_t lo, size_t hi) const;
-	void merge(vector<T> &arr, vector<T> &temp, size_t lo, size_t mid, size_t hi) const;
+	void mergeSort(vector<T> &arr, vector<T> &temp, int lo, int hi) const;
+	void merge(vector<T> &arr, vector<T> &temp, int lo, int mid, int hi) const;
 
 protected:
 
@@ -235,7 +234,7 @@ class CountingSort : public Sort<int> {
 
 	static const string algorithmName;
 
-	size_t k;  // elements in array are in range [0..k]
+	int k;  // elements in array are in range [0..k]
 
 protected:
 
@@ -246,7 +245,7 @@ protected:
 
 public:
 
-	CountingSort(size_t limit) : k(limit) { }
+	CountingSort(int limit) : k(limit) { }
 
 	virtual string getAlgorithmName() const override {
 		return algorithmName;
@@ -259,6 +258,8 @@ class ShellSort : public Sort<T> {
 
 	static const string algorithmName;
 
+	GapStrategy *gapStrategy = new KnuthGapStrategy();
+
 protected:
 
 	virtual void sortVector(vector<T> &arr) const override;
@@ -267,6 +268,11 @@ public:
 
 	virtual string getAlgorithmName() const override {
 		return algorithmName;
+	}
+
+	void setGapStrategy(GapStrategy *gapStrategy) {
+		delete this->gapStrategy;
+		this->gapStrategy = gapStrategy;
 	}
 
 };
@@ -305,9 +311,10 @@ template <typename T, class Compare>
 void SelectionSort<T, Compare>::sortVector(vector<T> &arr) const {
 
 	Compare comp;
+	int n = (int)arr.size();
 
-	for (size_t i = 0; i < arr.size(); i++) {
-		for (size_t j = i + 1; j < arr.size(); j++) {
+	for (int i = 0; i < n; i++) {
+		for (int j = i + 1; j < n; j++) {
 			if (comp(arr[j], arr[i])) {
 				swap(arr[i], arr[j]);
 			}
@@ -319,14 +326,14 @@ template <typename T, class Compare>
 void OptimizedSelectionSort<T, Compare>::sortVector(vector<T> &arr) const {
 	if (arr.size() == 0) return;
 
-	size_t n = arr.size();
+	int n = (int)arr.size();
 	Compare comp;
 
-	for (size_t i = 0; i < n - 1; i++) {
+	for (int i = 0; i < n - 1; i++) {
 		T minElement = arr[i];
-		size_t minPos = i;
+		int minPos = i;
 
-		for (size_t j = i + 1; j < n; j++) {
+		for (int j = i + 1; j < n; j++) {
 			if (comp(arr[j], minElement)) {
 				minElement = arr[j];
 				minPos = j;
@@ -341,8 +348,9 @@ void OptimizedSelectionSort<T, Compare>::sortVector(vector<T> &arr) const {
 template <typename T, class Compare>
 void BubbleSort<T, Compare>::sortVector(vector<T> &arr) const {
 	Compare comp;
-	for (size_t i = 0; i < arr.size(); i++) {
-		for (size_t j = 0; j < arr.size() - 1; j++) {
+	int n = (int)arr.size();
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n - 1; j++) {
 			if (comp(arr[j + 1], arr[j])) {
 				swap(arr[j], arr[j + 1]);
 			}
@@ -354,13 +362,13 @@ template <typename T, class Compare>
 void OptimizedBubbleSort<T, Compare>::sortVector(vector<T> &arr) const {
 	if (arr.size() == 0) return;
 
-	size_t n = arr.size(), lastChangeOn = n - 1, bound;
+	int n = (int)arr.size(), lastChangeOn = n - 1, bound;
 	Compare comp;
 	do {
 		bound = lastChangeOn;
 		lastChangeOn = 0;  // change detection
 
-		for (size_t i = 0; i < bound; i++) {
+		for (int i = 0; i < bound; i++) {
 			if (comp(arr[i + 1], arr[i])) {
 				swap(arr[i], arr[i + 1]);
 				lastChangeOn = i;
@@ -372,12 +380,13 @@ void OptimizedBubbleSort<T, Compare>::sortVector(vector<T> &arr) const {
 template <typename T, class Compare>
 void InsertionSort<T, Compare>::sortVector(vector<T> &arr) const {
 	Compare comp;
+	int n = (int)arr.size();
 
-	for (size_t i = 1; i < arr.size(); i++) {
-		size_t j = i - 1;
+	for (int i = 1; i < n; i++) {
+		int j = i - 1;
 		T cur = arr[i];
 
-		while (j >= 0 && j < arr.size() && comp(cur, arr[j])) {  // stable
+		while (j >= 0 && comp(cur, arr[j])) {  // stable
 			arr[j + 1] = arr[j];
 			j--;
 		}
@@ -408,23 +417,23 @@ void MergeSort<T, Compare>::sortVector(vector<T> &arr) const {
 }
 
 template <typename T, class Compare>
-void MergeSort<T, Compare>::mergeSort(vector<T> &arr, vector<T> &temp, size_t lo, size_t hi) const {
+void MergeSort<T, Compare>::mergeSort(vector<T> &arr, vector<T> &temp, int lo, int hi) const {
 	if (hi <= lo) return;
-	size_t mid = lo + (hi - lo) / 2;
+	int mid = lo + (hi - lo) / 2;
 	mergeSort(arr, temp, lo, mid);
 	mergeSort(arr, temp, mid + 1, hi);
 	merge(arr, temp, lo, mid, hi);
 }
 
 template <typename T, class Compare>
-void MergeSort<T, Compare>::merge(vector<T> &arr, vector<T> &temp, size_t lo, size_t mid, size_t hi) const {
+void MergeSort<T, Compare>::merge(vector<T> &arr, vector<T> &temp, int lo, int mid, int hi) const {
 	// temp stores left half of arr, while right half can remain in arr, thus reducing additional space by half
-	size_t leftHalfInd = 0, cpyInd = lo, arrInd = lo;
+	int leftHalfInd = 0, cpyInd = lo, arrInd = lo;
 	while (cpyInd <= mid) temp[leftHalfInd++] = arr[cpyInd++];
 
 	Compare comp;
 	leftHalfInd = 0;
-	size_t rightHalfInd = cpyInd;  // mid + 1
+	int rightHalfInd = cpyInd;  // mid + 1
 
 	while (arrInd < rightHalfInd && rightHalfInd <= hi) arr[arrInd++] = (!comp(arr[rightHalfInd], temp[leftHalfInd]) ? temp[leftHalfInd++] : arr[rightHalfInd++]);  // stable
 	while (arrInd < rightHalfInd) arr[arrInd++] = temp[leftHalfInd++];
@@ -436,12 +445,12 @@ void CountingSort<Compare>::sortVector(vector<int> &arr) const {
 	bool ascending = comp(0, 1);
 
 	vector<int> count(k + 1, 0);
-	size_t n = count.size();
+	int n = count.size();
 
 	for (const int &el : arr) count[el]++;
 
-	size_t total = 0;
-	for (size_t i = (ascending ? 0 : n - 1); i < n && (!ascending ? i >= 0 : true); (ascending ? i++ : i--)) {
+	int total = 0;
+	for (int i = (ascending ? 0 : n - 1); i < n && (!ascending ? i >= 0 : true); (ascending ? i++ : i--)) {
 		int temp = count[i];
 		count[i] = total;
 		total += temp;
@@ -458,9 +467,22 @@ void CountingSort<Compare>::sortVector(vector<int> &arr) const {
 
 template <typename T, class Compare>
 void ShellSort<T, Compare>::sortVector(vector<T> &arr) const {
-	
+	Compare comp;
+	vector<int> gaps = gapStrategy->getGaps(arr.size());
+	int n = (int)arr.size();
 
-
+	for (int gap : gaps) {
+		// Do a gapped insertion sort for this gap size
+		for (int i = gap; i < n; i++) {
+			T temp = arr[i];
+			int j = i - gap;
+			while (j >= 0 && comp(temp, arr[j])) {
+				arr[j + gap] = arr[j];
+				j -= gap;
+			}
+			arr[j + gap] = temp;
+		}
+	}
 }
 
 #endif
