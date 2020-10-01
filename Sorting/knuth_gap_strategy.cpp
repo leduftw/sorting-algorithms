@@ -1,4 +1,4 @@
-#include "knuth_gap_strategy.h"
+#include "knuth_gap_strategy.hpp"
 
 vector<int> KnuthGapStrategy::getGaps(int n) const {
 	int k = (int) (log(2 * (n / 3) + 1) / log(3));

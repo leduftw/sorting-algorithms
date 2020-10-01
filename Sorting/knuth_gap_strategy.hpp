@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 
-#include "gap_strategy.h"
+#include "gap_strategy.hpp"
 
 using namespace std;
 

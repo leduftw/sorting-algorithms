@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include "pivot_strategy.h"
+#include "pivot_strategy.hpp"
 
 using namespace std;
 

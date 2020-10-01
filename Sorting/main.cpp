@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <assert.h>
 
-#include "sort.h"
+#include "sort.hpp"
 
 using namespace std;
 

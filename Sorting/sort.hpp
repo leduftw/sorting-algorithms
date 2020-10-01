@@ -9,10 +9,10 @@
 #include <functional>
 #include <memory>
 
-#include "gap_strategy.h"
-#include "knuth_gap_strategy.h"
-#include "pivot_strategy.h"
-#include "middle_pivot_strategy.h"
+#include "gap_strategy.hpp"
+#include "knuth_gap_strategy.hpp"
+#include "pivot_strategy.hpp"
+#include "middle_pivot_strategy.hpp"
 
 using namespace std;
 using namespace chrono;
