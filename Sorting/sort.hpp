@@ -346,28 +346,6 @@ class HeapSort : public Sort<T> {
 protected:
 
 	/*
-		
-	*/
-	virtual void sortVector(vector<T> &arr) const override;
-
-public:
-
-	virtual string getAlgorithmName() const override {
-		return algorithmName;
-	}
-
-	virtual ~HeapSort() { }
-
-};
-
-template <typename T, class Compare = less<T> >
-class STLHeapSort : public HeapSort<T, Compare> {
-
-	static const string algorithmName;
-
-protected:
-
-	/*
 		Takes 3 seconds for vector with 1m elements.
 	*/
 	virtual void sortVector(vector<T> &arr) const override;
@@ -378,7 +356,7 @@ public:
 		return algorithmName;
 	}
 
-	virtual ~STLHeapSort() { }
+	virtual ~HeapSort() { }
 
 };
 
@@ -417,9 +395,6 @@ const string QuickSort<T, Compare>::algorithmName = "Quicksort";
 
 template <typename T, class Compare>
 const string HeapSort<T, Compare>::algorithmName = "Heapsort";
-
-template <typename T, class Compare>
-const string STLHeapSort<T, Compare>::algorithmName = "STL heapsort";
 
 template <typename T, class Compare>
 void SelectionSort<T, Compare>::sortVector(vector<T> &arr) const {
@@ -636,12 +611,6 @@ int QuickSort<T, Compare>::partition(vector<T> &arr, int lo, int hi, T piv) cons
 
 template <typename T, class Compare>
 void HeapSort<T, Compare>::sortVector(vector<T> &arr) const {
-	//Compare comp;
-	
-}
-
-template <typename T, class Compare>
-void STLHeapSort<T, Compare>::sortVector(vector<T> &arr) const {
 	Compare comp;
 	make_heap(arr.begin(), arr.end(), comp);
 	sort_heap(arr.begin(), arr.end(), comp);
