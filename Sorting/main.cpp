@@ -21,7 +21,7 @@ int main() {
 
 	random_shuffle(v.begin(), v.end());
 
-	auto sorter = make_shared<STLSort<int, greater<int>>>();
+	auto sorter = make_shared<HeapSort<int, greater<int>>>();
 	sorter->sort(v);
 
 	assert(is_sorted(v.begin(), v.end(), greater<int>()));

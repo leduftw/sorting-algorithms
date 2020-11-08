@@ -28,8 +28,6 @@ using namespace chrono;
 		- Counting sort  (supports numbers only)
 		- Shellsort
 		- Quicksort
-
-		TODO:
 		- Heapsort
 */
 
