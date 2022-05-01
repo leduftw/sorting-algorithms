@@ -9,352 +9,352 @@
 #include <functional>
 #include <memory>
 
-#include "Gap Strategy/gap_strategy.hpp"
-#include "Gap Strategy/knuth_gap_strategy.hpp"
-#include "Pivot Strategy/pivot_strategy.hpp"
-#include "Pivot Strategy/middle_pivot_strategy.hpp"
+#include "gap-strategy/gap_strategy.hpp"
+#include "gap-strategy/knuth_gap_strategy.hpp"
+#include "pivot-strategy/pivot_strategy.hpp"
+#include "pivot-strategy/middle_pivot_strategy.hpp"
 
 using namespace std;
 using namespace chrono;
 
 /*
-	Sorting algorithms that you can find here:
-		- Selection sort (+ optimized)
-		- Bubble sort    (+ optimized)
-		- Insertion sort
-		- STL sort
-		- Bogosort
-		- Mergesort
-		- Counting sort  (supports numbers only)
-		- Shellsort
-		- Quicksort
-		- Heapsort
+    Sorting algorithms that you can find here:
+        - Selection sort (+ optimized)
+        - Bubble sort    (+ optimized)
+        - Insertion sort
+        - STL sort
+        - Bogosort
+        - Mergesort
+        - Counting sort  (supports numbers only)
+        - Shellsort
+        - Quicksort
+        - Heapsort
 */
 
 template <typename T>
 class Sort {
 
-	time_point<high_resolution_clock> start, end;
-	int sizeOfLastSort;
+    time_point<high_resolution_clock> start, end;
+    int sizeOfLastSort;
 
 protected:
 
-	virtual void sortVector(vector<T> &arr) const = 0;
+    virtual void sortVector(vector<T>& arr) const = 0;
 
 public:
 
-	Sort() : sizeOfLastSort(0) { }
+    Sort() : sizeOfLastSort(0) { }
 
-	virtual ~Sort() { 
-		//cout << "Sort destructor called\n"; 
-	}
+    virtual ~Sort() {
+        //cout << "Sort destructor called\n";
+    }
 
-	void sort(vector<T> &arr) {
-		start = high_resolution_clock::now();
-		sortVector(arr);
-		end = high_resolution_clock::now();
-		sizeOfLastSort = arr.size();
-	}
+    void sort(vector<T>& arr) {
+        start = high_resolution_clock::now();
+        sortVector(arr);
+        end = high_resolution_clock::now();
+        sizeOfLastSort = arr.size();
+    }
 
-	virtual string getAlgorithmName() const = 0;
+    virtual string getAlgorithmName() const = 0;
 
-	friend ostream& operator<<(ostream &os, const Sort &s) {
-		if (s.sizeOfLastSort > 0) {  // only for non-empty arrays
-			os << "Array size: " << s.sizeOfLastSort << ".\n";
-			os << "Sorted in: " << duration_cast<seconds>(s.end - s.start).count() << " seconds.\n";
-			os << "Algorithm name: " << s.getAlgorithmName() << "\n";
-		}
-		return os;
-	}
+    friend ostream& operator<<(ostream& os, const Sort& s) {
+        if (s.sizeOfLastSort > 0) {  // only for non-empty arrays
+            os << "Array size: " << s.sizeOfLastSort << ".\n";
+            os << "Sorted in: " << duration_cast<seconds>(s.end - s.start).count() << " seconds.\n";
+            os << "Algorithm name: " << s.getAlgorithmName() << "\n";
+        }
+        return os;
+    }
 
 };
 
 template <typename T, class Compare = less<T> >
 class SelectionSort : public Sort<T> {
 
-	static const string algorithmName;
+    static const string algorithmName;
 
 protected:
 
-	/*
-		Takes around 55 seconds for vector with 10k elements.
-	*/
-	virtual void sortVector(vector<T> &arr) const override;
+    /*
+        Takes around 55 seconds for vector with 10k elements.
+    */
+    virtual void sortVector(vector<T>& arr) const override;
 
 public:
 
-	virtual string getAlgorithmName() const override {
-		return algorithmName;
-	}
+    virtual string getAlgorithmName() const override {
+        return algorithmName;
+    }
 
-	virtual ~SelectionSort() { }
+    virtual ~SelectionSort() { }
 
 };
 
 template <typename T, class Compare = less<T> >
 class OptimizedSelectionSort : public SelectionSort<T, Compare> {
 
-	static const string algorithmName;
+    static const string algorithmName;
 
 protected:
 
-	/*
-		Takes around 15 seconds for vector with 10k elements.
-	*/
-	virtual void sortVector(vector<T> &arr) const override;
+    /*
+        Takes around 15 seconds for vector with 10k elements.
+    */
+    virtual void sortVector(vector<T>& arr) const override;
 
 public:
 
-	virtual string getAlgorithmName() const override {
-		return algorithmName;
-	}
+    virtual string getAlgorithmName() const override {
+        return algorithmName;
+    }
 
-	virtual ~OptimizedSelectionSort() { }
+    virtual ~OptimizedSelectionSort() { }
 
 };
 
 template <typename T, class Compare = less<T> >
 class BubbleSort : public Sort<T> {
 
-	static const string algorithmName;
+    static const string algorithmName;
 
 protected:
 
-	/*
-		Takes around 85 seconds for vector with 10k elements.
-	*/
-	virtual void sortVector(vector<T> &arr) const override;
+    /*
+        Takes around 85 seconds for vector with 10k elements.
+    */
+    virtual void sortVector(vector<T>& arr) const override;
 
 public:
 
-	virtual string getAlgorithmName() const override {
-		return algorithmName;
-	}
+    virtual string getAlgorithmName() const override {
+        return algorithmName;
+    }
 
-	virtual ~BubbleSort() { }
+    virtual ~BubbleSort() { }
 
 };
 
 template <typename T, class Compare = less<T> >
 class OptimizedBubbleSort : public BubbleSort<T, Compare> {
 
-	static const string algorithmName;
+    static const string algorithmName;
 
 protected:
 
-	/*
-		Takes around 35 seconds for vector with 10k elements.
-	*/
-	virtual void sortVector(vector<T> &arr) const override;
+    /*
+        Takes around 35 seconds for vector with 10k elements.
+    */
+    virtual void sortVector(vector<T>& arr) const override;
 
 public:
 
-	virtual string getAlgorithmName() const override {
-		return algorithmName;
-	}
+    virtual string getAlgorithmName() const override {
+        return algorithmName;
+    }
 
-	virtual ~OptimizedBubbleSort() { }
+    virtual ~OptimizedBubbleSort() { }
 
 };
 
 template <typename T, class Compare = less<T> >
 class InsertionSort : public Sort<T> {
 
-	static const string algorithmName;
+    static const string algorithmName;
 
 protected:
 
-	/*
-		Takes around 25 seconds for vector with 10k elements.
-	*/
-	virtual void sortVector(vector<T> &arr) const override;
+    /*
+        Takes around 25 seconds for vector with 10k elements.
+    */
+    virtual void sortVector(vector<T>& arr) const override;
 
 public:
 
-	virtual string getAlgorithmName() const override {
-		return algorithmName;
-	}
+    virtual string getAlgorithmName() const override {
+        return algorithmName;
+    }
 
-	virtual ~InsertionSort() { }
+    virtual ~InsertionSort() { }
 
 };
 
 template <typename T, class Compare = less<T> >
 class STLSort : public Sort<T> {
 
-	static const string algorithmName;
+    static const string algorithmName;
 
 protected:
 
-	/*
-		Takes 2 seconds for vector with 1m elements.
-	*/
-	virtual void sortVector(vector<T> &arr) const override;
+    /*
+        Takes 2 seconds for vector with 1m elements.
+    */
+    virtual void sortVector(vector<T>& arr) const override;
 
 public:
 
-	virtual string getAlgorithmName() const override {
-		return algorithmName;
-	}
+    virtual string getAlgorithmName() const override {
+        return algorithmName;
+    }
 
-	virtual ~STLSort() { }
+    virtual ~STLSort() { }
 
 };
 
 template <typename T, class Compare = less<T> >
 class BogoSort : public Sort<T> {
 
-	static const string algorithmName;
+    static const string algorithmName;
 
 protected:
 
-	/*
-		One time BogoSort took 9 seconds for vector with 10 elements.
-	*/
-	virtual void sortVector(vector<T> &arr) const override;
+    /*
+        One time BogoSort took 9 seconds for vector with 10 elements.
+    */
+    virtual void sortVector(vector<T>& arr) const override;
 
 public:
 
-	virtual string getAlgorithmName() const override {
-		return algorithmName;
-	}
+    virtual string getAlgorithmName() const override {
+        return algorithmName;
+    }
 
-	virtual ~BogoSort() { }
+    virtual ~BogoSort() { }
 
 };
 
 template <typename T, class Compare = less<T> >
 class MergeSort : public Sort<T> {
 
-	static const string algorithmName;
+    static const string algorithmName;
 
-	void mergeSort(vector<T> &arr, vector<T> &temp, int lo, int hi) const;
-	void merge(vector<T> &arr, vector<T> &temp, int lo, int mid, int hi) const;
+    void mergeSort(vector<T>& arr, vector<T>& temp, int lo, int hi) const;
+    void merge(vector<T>& arr, vector<T>& temp, int lo, int mid, int hi) const;
 
 protected:
 
-	/*
-		Takes 22 seconds for vector with 1m elements.
-	*/
-	virtual void sortVector(vector<T> &arr) const override;
+    /*
+        Takes 22 seconds for vector with 1m elements.
+    */
+    virtual void sortVector(vector<T>& arr) const override;
 
 public:
 
-	virtual string getAlgorithmName() const override {
-		return algorithmName;
-	}
+    virtual string getAlgorithmName() const override {
+        return algorithmName;
+    }
 
-	virtual ~MergeSort() { }
+    virtual ~MergeSort() { }
 
 };
 
 /*
-	Counting sort can only sort numbers.
+    Counting sort can only sort numbers.
 */
 template <class Compare = less<int> >
 class CountingSort : public Sort<int> {
 
-	static const string algorithmName;
+    static const string algorithmName;
 
-	int k;  // elements in array are in range [0..k]
+    int k;  // elements in array are in range [0..k]
 
 protected:
 
-	/*
-		Takes 1 second for vector with 1m elements.
-	*/
-	virtual void sortVector(vector<int> &arr) const override;
+    /*
+        Takes 1 second for vector with 1m elements.
+    */
+    virtual void sortVector(vector<int>& arr) const override;
 
 public:
 
-	CountingSort(int limit) : k(limit) { }
+    CountingSort(int limit) : k(limit) { }
 
-	virtual ~CountingSort() { }
+    virtual ~CountingSort() { }
 
-	virtual string getAlgorithmName() const override {
-		return algorithmName;
-	}
+    virtual string getAlgorithmName() const override {
+        return algorithmName;
+    }
 
 };
 
 template <typename T, class Compare = less<T> >
 class ShellSort : public Sort<T> {
 
-	static const string algorithmName;
+    static const string algorithmName;
 
-	shared_ptr<GapStrategy> gapStrategy = make_shared<KnuthGapStrategy>();
+    shared_ptr<GapStrategy> gapStrategy = make_shared<KnuthGapStrategy>();
 
 protected:
 
-	/*
-		Takes 50 seconds for vector with 1m elements.
-	*/
-	virtual void sortVector(vector<T> &arr) const override;
+    /*
+        Takes 50 seconds for vector with 1m elements.
+    */
+    virtual void sortVector(vector<T>& arr) const override;
 
 public:
 
-	virtual string getAlgorithmName() const override {
-		return algorithmName;
-	}
+    virtual string getAlgorithmName() const override {
+        return algorithmName;
+    }
 
-	void setGapStrategy(shared_ptr<GapStrategy> gapStrategy) {
-		this->gapStrategy = gapStrategy;
-	}
+    void setGapStrategy(shared_ptr<GapStrategy> gapStrategy) {
+        this->gapStrategy = gapStrategy;
+    }
 
-	virtual ~ShellSort() { }
+    virtual ~ShellSort() { }
 
 };
 
 template <typename T, class Compare = less<T> >
 class QuickSort : public Sort<T> {
 
-	static const string algorithmName;
+    static const string algorithmName;
 
-	shared_ptr<PivotStrategy<T>> pivotStrategy = make_shared<MiddlePivotStrategy<T>>();
+    shared_ptr<PivotStrategy<T>> pivotStrategy = make_shared<MiddlePivotStrategy<T>>();
 
-	void quickSort(vector<T> &arr, int lo, int hi) const;
-	int partition(vector<T> &arr, int lo, int hi, T pivot) const;
+    void quickSort(vector<T>& arr, int lo, int hi) const;
+    int partition(vector<T>& arr, int lo, int hi, T pivot) const;
 
 protected:
 
-	/*
-		Takes 20 seconds for vector with 1m elements.
-	*/
-	virtual void sortVector(vector<T> &arr) const override;
+    /*
+        Takes 20 seconds for vector with 1m elements.
+    */
+    virtual void sortVector(vector<T>& arr) const override;
 
 public:
 
-	virtual string getAlgorithmName() const override {
-		return algorithmName;
-	}
+    virtual string getAlgorithmName() const override {
+        return algorithmName;
+    }
 
-	void setPivotStrategy(shared_ptr<PivotStrategy<T>> pivotStrategy) {
-		this->pivotStrategy = pivotStrategy;
-	}
+    void setPivotStrategy(shared_ptr<PivotStrategy<T>> pivotStrategy) {
+        this->pivotStrategy = pivotStrategy;
+    }
 
-	virtual ~QuickSort() { }
+    virtual ~QuickSort() { }
 
 };
 
 template <typename T, class Compare = less<T> >
 class HeapSort : public Sort<T> {
 
-	static const string algorithmName;
+    static const string algorithmName;
 
 protected:
 
-	/*
-		Takes 3 seconds for vector with 1m elements.
-	*/
-	virtual void sortVector(vector<T> &arr) const override;
+    /*
+        Takes 3 seconds for vector with 1m elements.
+    */
+    virtual void sortVector(vector<T>& arr) const override;
 
 public:
 
-	virtual string getAlgorithmName() const override {
-		return algorithmName;
-	}
+    virtual string getAlgorithmName() const override {
+        return algorithmName;
+    }
 
-	virtual ~HeapSort() { }
+    virtual ~HeapSort() { }
 
 };
 
@@ -395,223 +395,223 @@ template <typename T, class Compare>
 const string HeapSort<T, Compare>::algorithmName = "Heapsort";
 
 template <typename T, class Compare>
-void SelectionSort<T, Compare>::sortVector(vector<T> &arr) const {
+void SelectionSort<T, Compare>::sortVector(vector<T>& arr) const {
 
-	Compare comp;
-	int n = (int)arr.size();
+    Compare comp;
+    int n = (int)arr.size();
 
-	for (int i = 0; i < n; i++) {
-		for (int j = i + 1; j < n; j++) {
-			if (comp(arr[j], arr[i])) {
-				swap(arr[i], arr[j]);
-			}
-		}
-	}
+    for (int i = 0; i < n; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (comp(arr[j], arr[i])) {
+                swap(arr[i], arr[j]);
+            }
+        }
+    }
 }
 
 template <typename T, class Compare>
-void OptimizedSelectionSort<T, Compare>::sortVector(vector<T> &arr) const {
-	if (arr.size() == 0) return;
+void OptimizedSelectionSort<T, Compare>::sortVector(vector<T>& arr) const {
+    if (arr.size() == 0) return;
 
-	int n = (int)arr.size();
-	Compare comp;
+    int n = (int)arr.size();
+    Compare comp;
 
-	for (int i = 0; i < n - 1; i++) {
-		T minElement = arr[i];
-		int minPos = i;
+    for (int i = 0; i < n - 1; i++) {
+        T minElement = arr[i];
+        int minPos = i;
 
-		for (int j = i + 1; j < n; j++) {
-			if (comp(arr[j], minElement)) {
-				minElement = arr[j];
-				minPos = j;
-			}
-		}
+        for (int j = i + 1; j < n; j++) {
+            if (comp(arr[j], minElement)) {
+                minElement = arr[j];
+                minPos = j;
+            }
+        }
 
-		arr[minPos] = arr[i];
-		arr[i] = minElement;
-	}
+        arr[minPos] = arr[i];
+        arr[i] = minElement;
+    }
 }
 
 template <typename T, class Compare>
-void BubbleSort<T, Compare>::sortVector(vector<T> &arr) const {
-	Compare comp;
-	int n = (int)arr.size();
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < n - 1; j++) {
-			if (comp(arr[j + 1], arr[j])) {
-				swap(arr[j], arr[j + 1]);
-			}
-		}
-	}
+void BubbleSort<T, Compare>::sortVector(vector<T>& arr) const {
+    Compare comp;
+    int n = (int)arr.size();
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n - 1; j++) {
+            if (comp(arr[j + 1], arr[j])) {
+                swap(arr[j], arr[j + 1]);
+            }
+        }
+    }
 }
 
 template <typename T, class Compare>
-void OptimizedBubbleSort<T, Compare>::sortVector(vector<T> &arr) const {
-	if (arr.size() == 0) return;
+void OptimizedBubbleSort<T, Compare>::sortVector(vector<T>& arr) const {
+    if (arr.size() == 0) return;
 
-	int n = (int)arr.size(), lastChangeOn = n - 1, bound;
-	Compare comp;
-	do {
-		bound = lastChangeOn;
-		lastChangeOn = 0;  // change detection
+    int n = (int)arr.size(), lastChangeOn = n - 1, bound;
+    Compare comp;
+    do {
+        bound = lastChangeOn;
+        lastChangeOn = 0;  // change detection
 
-		for (int i = 0; i < bound; i++) {
-			if (comp(arr[i + 1], arr[i])) {
-				swap(arr[i], arr[i + 1]);
-				lastChangeOn = i;
-			}
-		}
-	} while (lastChangeOn != 0);
+        for (int i = 0; i < bound; i++) {
+            if (comp(arr[i + 1], arr[i])) {
+                swap(arr[i], arr[i + 1]);
+                lastChangeOn = i;
+            }
+        }
+    } while (lastChangeOn != 0);
 }
 
 template <typename T, class Compare>
-void InsertionSort<T, Compare>::sortVector(vector<T> &arr) const {
-	Compare comp;
-	int n = (int)arr.size();
+void InsertionSort<T, Compare>::sortVector(vector<T>& arr) const {
+    Compare comp;
+    int n = (int)arr.size();
 
-	for (int i = 1; i < n; i++) {
-		int j = i - 1;
-		T cur = arr[i];
+    for (int i = 1; i < n; i++) {
+        int j = i - 1;
+        T cur = arr[i];
 
-		while (j >= 0 && comp(cur, arr[j])) {  // stable
-			arr[j + 1] = arr[j];
-			j--;
-		}
+        while (j >= 0 && comp(cur, arr[j])) {  // stable
+            arr[j + 1] = arr[j];
+            j--;
+        }
 
-		arr[j + 1] = cur;
-	}
+        arr[j + 1] = cur;
+    }
 }
 
 template <typename T, class Compare>
-void STLSort<T, Compare>::sortVector(vector<T> &arr) const {
-	sort(arr.begin(), arr.end(), Compare());
+void STLSort<T, Compare>::sortVector(vector<T>& arr) const {
+    sort(arr.begin(), arr.end(), Compare());
 }
 
 template <typename T, class Compare>
-void BogoSort<T, Compare>::sortVector(vector<T> &arr) const {
-	Compare comp;
-	while (!is_sorted(arr.begin(), arr.end(), comp)) {
-		random_shuffle(arr.begin(), arr.end());
-	}
+void BogoSort<T, Compare>::sortVector(vector<T>& arr) const {
+    Compare comp;
+    while (!is_sorted(arr.begin(), arr.end(), comp)) {
+        random_shuffle(arr.begin(), arr.end());
+    }
 }
 
 template <typename T, class Compare>
-void MergeSort<T, Compare>::sortVector(vector<T> &arr) const {
-	if (arr.size() == 0) return;
+void MergeSort<T, Compare>::sortVector(vector<T>& arr) const {
+    if (arr.size() == 0) return;
 
-	vector<T> temp(arr.size() / 2 + 1);
-	mergeSort(arr, temp, 0, arr.size() - 1);
+    vector<T> temp(arr.size() / 2 + 1);
+    mergeSort(arr, temp, 0, arr.size() - 1);
 }
 
 template <typename T, class Compare>
-void MergeSort<T, Compare>::mergeSort(vector<T> &arr, vector<T> &temp, int lo, int hi) const {
-	if (hi <= lo) return;
-	int mid = lo + (hi - lo) / 2;
-	mergeSort(arr, temp, lo, mid);
-	mergeSort(arr, temp, mid + 1, hi);
-	merge(arr, temp, lo, mid, hi);
+void MergeSort<T, Compare>::mergeSort(vector<T>& arr, vector<T>& temp, int lo, int hi) const {
+    if (hi <= lo) return;
+    int mid = lo + (hi - lo) / 2;
+    mergeSort(arr, temp, lo, mid);
+    mergeSort(arr, temp, mid + 1, hi);
+    merge(arr, temp, lo, mid, hi);
 }
 
 template <typename T, class Compare>
-void MergeSort<T, Compare>::merge(vector<T> &arr, vector<T> &temp, int lo, int mid, int hi) const {
-	// temp stores left half of arr, while right half can remain in arr, thus reducing additional space by half
-	int leftHalfInd = 0, cpyInd = lo, arrInd = lo;
-	while (cpyInd <= mid) temp[leftHalfInd++] = arr[cpyInd++];
+void MergeSort<T, Compare>::merge(vector<T>& arr, vector<T>& temp, int lo, int mid, int hi) const {
+    // temp stores left half of arr, while right half can remain in arr, thus reducing additional space by half
+    int leftHalfInd = 0, cpyInd = lo, arrInd = lo;
+    while (cpyInd <= mid) temp[leftHalfInd++] = arr[cpyInd++];
 
-	Compare comp;
-	leftHalfInd = 0;
-	int rightHalfInd = cpyInd;  // mid + 1
+    Compare comp;
+    leftHalfInd = 0;
+    int rightHalfInd = cpyInd;  // mid + 1
 
-	while (arrInd < rightHalfInd && rightHalfInd <= hi) arr[arrInd++] = (!comp(arr[rightHalfInd], temp[leftHalfInd]) ? temp[leftHalfInd++] : arr[rightHalfInd++]);  // stable
-	while (arrInd < rightHalfInd) arr[arrInd++] = temp[leftHalfInd++];
+    while (arrInd < rightHalfInd && rightHalfInd <= hi) arr[arrInd++] = (!comp(arr[rightHalfInd], temp[leftHalfInd]) ? temp[leftHalfInd++] : arr[rightHalfInd++]);  // stable
+    while (arrInd < rightHalfInd) arr[arrInd++] = temp[leftHalfInd++];
 }
 
 template <class Compare>
-void CountingSort<Compare>::sortVector(vector<int> &arr) const {
-	Compare comp;
-	bool ascending = comp(0, 1);
+void CountingSort<Compare>::sortVector(vector<int>& arr) const {
+    Compare comp;
+    bool ascending = comp(0, 1);
 
-	vector<int> count(k + 1, 0);
-	int n = count.size();
+    vector<int> count(k + 1, 0);
+    int n = count.size();
 
-	for (const int &el : arr) count[el]++;
+    for (const int& el : arr) count[el]++;
 
-	int total = 0;
-	for (int i = (ascending ? 0 : n - 1); i < n && (!ascending ? i >= 0 : true); (ascending ? i++ : i--)) {
-		int temp = count[i];
-		count[i] = total;
-		total += temp;
-	}
+    int total = 0;
+    for (int i = (ascending ? 0 : n - 1); i < n && (!ascending ? i >= 0 : true); (ascending ? i++ : i--)) {
+        int temp = count[i];
+        count[i] = total;
+        total += temp;
+    }
 
-	vector<int> sortedArr(arr.size());
-	for (const int &el : arr) {
-		sortedArr[count[el]] = el;
-		count[el]++;  // stable
-	}
+    vector<int> sortedArr(arr.size());
+    for (const int& el : arr) {
+        sortedArr[count[el]] = el;
+        count[el]++;  // stable
+    }
 
-	copy(sortedArr.begin(), sortedArr.end(), arr.begin());
+    copy(sortedArr.begin(), sortedArr.end(), arr.begin());
 }
 
 template <typename T, class Compare>
-void ShellSort<T, Compare>::sortVector(vector<T> &arr) const {
-	Compare comp;
-	vector<int> gaps = gapStrategy->getGaps(arr.size());
-	int n = (int)arr.size();
+void ShellSort<T, Compare>::sortVector(vector<T>& arr) const {
+    Compare comp;
+    vector<int> gaps = gapStrategy->getGaps(arr.size());
+    int n = (int)arr.size();
 
-	for (int gap : gaps) {
-		// Do a gapped insertion sort for this gap size
-		for (int i = gap; i < n; i++) {
-			T temp = arr[i];
-			int j = i - gap;
-			while (j >= 0 && comp(temp, arr[j])) {
-				arr[j + gap] = arr[j];
-				j -= gap;
-			}
-			arr[j + gap] = temp;
-		}
-	}
+    for (int gap : gaps) {
+        // Do a gapped insertion sort for this gap size
+        for (int i = gap; i < n; i++) {
+            T temp = arr[i];
+            int j = i - gap;
+            while (j >= 0 && comp(temp, arr[j])) {
+                arr[j + gap] = arr[j];
+                j -= gap;
+            }
+            arr[j + gap] = temp;
+        }
+    }
 }
 
 template <typename T, class Compare>
-void QuickSort<T, Compare>::sortVector(vector<T> &arr) const {
-	quickSort(arr, 0, arr.size() - 1);
+void QuickSort<T, Compare>::sortVector(vector<T>& arr) const {
+    quickSort(arr, 0, arr.size() - 1);
 }
 
 template <typename T, class Compare>
-void QuickSort<T, Compare>::quickSort(vector<T> &arr, int lo, int hi) const {
-	if (lo >= hi) return;
+void QuickSort<T, Compare>::quickSort(vector<T>& arr, int lo, int hi) const {
+    if (lo >= hi) return;
 
-	T piv = pivotStrategy->getPivot(arr, lo, hi);
-	int idx = partition(arr, lo, hi, piv);
+    T piv = pivotStrategy->getPivot(arr, lo, hi);
+    int idx = partition(arr, lo, hi, piv);
 
-	quickSort(arr, lo, idx - 1);
-	quickSort(arr, idx, hi);
+    quickSort(arr, lo, idx - 1);
+    quickSort(arr, idx, hi);
 }
 
 template <typename T, class Compare>
-int QuickSort<T, Compare>::partition(vector<T> &arr, int lo, int hi, T piv) const {
-	Compare comp;
-	while (lo <= hi) {
-		while (comp(arr[lo], piv)) {
-			lo++;
-		}
-		while (comp(piv, arr[hi])) {
-			hi--;
-		}
-		if (lo <= hi) {
-			swap(arr[lo], arr[hi]);
-			lo++;
-			hi--;
-		}
-	}
-	return lo;
+int QuickSort<T, Compare>::partition(vector<T>& arr, int lo, int hi, T piv) const {
+    Compare comp;
+    while (lo <= hi) {
+        while (comp(arr[lo], piv)) {
+            lo++;
+        }
+        while (comp(piv, arr[hi])) {
+            hi--;
+        }
+        if (lo <= hi) {
+            swap(arr[lo], arr[hi]);
+            lo++;
+            hi--;
+        }
+    }
+    return lo;
 }
 
 template <typename T, class Compare>
-void HeapSort<T, Compare>::sortVector(vector<T> &arr) const {
-	Compare comp;
-	make_heap(arr.begin(), arr.end(), comp);
-	sort_heap(arr.begin(), arr.end(), comp);
+void HeapSort<T, Compare>::sortVector(vector<T>& arr) const {
+    Compare comp;
+    make_heap(arr.begin(), arr.end(), comp);
+    sort_heap(arr.begin(), arr.end(), comp);
 }
 
 #endif

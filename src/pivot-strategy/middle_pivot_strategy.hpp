@@ -12,16 +12,16 @@ class MiddlePivotStrategy : public PivotStrategy<T> {
 
 public:
 
-	/*
-		Selects middle element from partition as pivot.
-	*/
-	virtual T getPivot(vector<T> &arr, int lo, int hi) const override {
-		return arr[lo + (hi - lo) / 2];
-	}
+    /*
+        Selects middle element from partition as pivot.
+    */
+    virtual T getPivot(vector<T>& arr, int lo, int hi) const override {
+        return arr[lo + (hi - lo) / 2];
+    }
 
-	virtual ~MiddlePivotStrategy() { 
-		//cout << "Middle Pivot destructor\n";
-	}
+    virtual ~MiddlePivotStrategy() {
+        //cout << "Middle Pivot destructor\n";
+    }
 
 };
 
