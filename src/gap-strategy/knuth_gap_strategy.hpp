@@ -21,11 +21,9 @@ public:
         k = floor(log3(2 * ceil(n / 3) + 1)), which is also
         the size of returned result array.
     */
-    virtual vector<int> getGaps(int n) const override;
+    virtual vector<int> get_gaps(int n) const override;
 
-    virtual ~KnuthGapStrategy() {
-        //cout << "KGS destructor called!\n";
-    }
+    virtual ~KnuthGapStrategy() { }
 
 };
 

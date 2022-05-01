@@ -21,13 +21,15 @@ int main() {
 
     random_shuffle(v.begin(), v.end());
 
-    auto sorter = make_shared<HeapSort<int, greater<int>>>();
+    auto sorter = make_shared<ShellSort<int>>();
     sorter->sort(v);
 
-    assert(is_sorted(v.begin(), v.end(), greater<int>()));
+    assert(is_sorted(v.begin(), v.end()));
 
-    cout << "Sorted:\n";
-    //print(v);
+    if (n <= 50) {
+        cout << "Sorted:\n";
+        print(v);
+    }
 
     cout << *sorter << "\n";
 

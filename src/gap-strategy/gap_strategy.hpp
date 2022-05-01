@@ -13,7 +13,7 @@ public:
         Returns gap sequence in decreasing order.
         Parameter n is size of array on which sorting is performed.
     */
-    virtual vector<int> getGaps(int n) const = 0;
+    virtual vector<int> get_gaps(int n) const = 0;
 
     virtual ~GapStrategy() { }
 
