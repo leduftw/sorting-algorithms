@@ -7,7 +7,7 @@
 
 using namespace std;
 
-const int n = 10'000'000;
+const int n = 100'000;
 
 template <typename T>
 void print(vector<T> v) {
